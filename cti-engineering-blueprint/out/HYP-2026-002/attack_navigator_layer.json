@@ -1,0 +1,41 @@
+{
+  "name": "HYP-2026-002 expected TTP coverage",
+  "versions": {
+    "attack": "20",
+    "navigator": "5.1.0",
+    "layer": "4.5"
+  },
+  "domain": "enterprise-attack",
+  "description": "Indirect prompt injection against an internal RAG assistant to leak customer or internal data",
+  "techniques": [
+    {
+      "techniqueID": "T1213",
+      "score": 100,
+      "color": "#31a354",
+      "comment": "COVERED | detections: Instruction-Like Text In RAG Retrieved Content | data sources: SharePoint/Confluence audit logs",
+      "enabled": true,
+      "metadata": [
+        {
+          "name": "hypothesis",
+          "value": "HYP-2026-002"
+        }
+      ]
+    }
+  ],
+  "legendItems": [
+    {
+      "label": "Covered",
+      "color": "#31a354"
+    },
+    {
+      "label": "Partial (parent/sub-technique only)",
+      "color": "#fec44f"
+    },
+    {
+      "label": "Gap",
+      "color": "#de2d26"
+    }
+  ],
+  "showTacticRowBackground": true,
+  "selectTechniquesAcrossTactics": true
+}

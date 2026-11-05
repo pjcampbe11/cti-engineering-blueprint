@@ -1,0 +1,64 @@
+title: Okta MFA Factors Reset (Help Desk / Admin)
+id: 1c2d3e4f-5a6b-4c7d-8e9f-0a1b2c3d4e51
+name: okta_factor_reset
+status: experimental
+description: Base rule - an admin or help-desk agent reset all MFA factors for a user. HYP-2026-001.
+author: CTI Threat Research (HYP-2026-001)
+date: 2026-11-04
+tags:
+  - attack.persistence
+  - attack.t1098.005
+logsource:
+  product: okta
+  service: okta
+detection:
+  selection:
+    eventtype: user.mfa.factor.reset_all
+  condition: selection
+level: low
+---
+title: Okta MFA Factor Activated
+id: 1c2d3e4f-5a6b-4c7d-8e9f-0a1b2c3d4e52
+name: okta_factor_activate
+status: experimental
+description: Base rule - a user enrolled / activated a new MFA factor. HYP-2026-001.
+author: CTI Threat Research (HYP-2026-001)
+date: 2026-11-04
+tags:
+  - attack.persistence
+  - attack.t1098.005
+logsource:
+  product: okta
+  service: okta
+detection:
+  selection:
+    eventtype: user.mfa.factor.activate
+  condition: selection
+level: low
+---
+title: MFA Reset Followed By New Factor Enrollment Within 60 Minutes
+id: 1c2d3e4f-5a6b-4c7d-8e9f-0a1b2c3d4e53
+status: experimental
+description: |
+  Help-desk reset of a user's MFA followed by enrollment of a new factor for the
+  same identity within 60 minutes. Core sequence in HYP-2026-001. Enrich with
+  ITSM ticket, caller verification result, and source ASN before escalating.
+author: CTI Threat Research (HYP-2026-001)
+date: 2026-11-04
+tags:
+  - attack.persistence
+  - attack.t1098.005
+  - attack.t1656
+correlation:
+  type: temporal   # pySigma Splunk backend supports temporal, not temporal_ordered; ordering enforced in detections/splunk/okta_reset_then_enroll_ordered.spl
+  rules:
+    - okta_factor_reset
+    - okta_factor_activate
+  aliases:
+    identity:
+      okta_factor_reset: target.alternateid
+      okta_factor_activate: actor.alternateid
+  group-by:
+    - identity
+  timespan: 60m
+level: high

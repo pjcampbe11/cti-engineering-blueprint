@@ -1,0 +1,32 @@
+[
+  {
+    "alert_id": "ALERT-ATTACK-001",
+    "vendor": "crowdstrike",
+    "name": "Suspicious PowerShell Execution",
+    "host": "FIN-WS-0231",
+    "user": "CORP\\jdoe",
+    "device_id": "dev-7f21",
+    "process_id": "p3",
+    "timestamp": "2026-11-05T15:02:00Z"
+  },
+  {
+    "alert_id": "ALERT-ADMIN-002",
+    "vendor": "sentinelone",
+    "name": "Suspicious PowerShell Execution",
+    "host": "ADM-JMP-02",
+    "user": "CORP\\adm-rsmith",
+    "device_id": "dev-0a11",
+    "process_id": "a2",
+    "timestamp": "2026-11-05T15:01:00Z"
+  },
+  {
+    "alert_id": "ALERT-GREY-003",
+    "vendor": "carbonblack",
+    "name": "Suspicious PowerShell Execution",
+    "host": "OPS-WS-0110",
+    "user": "CORP\\adm-tlee",
+    "device_id": "dev-3c90",
+    "process_id": "g2",
+    "timestamp": "2026-11-05T15:00:00Z"
+  }
+]

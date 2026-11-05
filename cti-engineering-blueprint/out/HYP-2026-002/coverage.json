@@ -1,0 +1,49 @@
+[
+  {
+    "technique": "AML.T0051.001",
+    "name": "LLM Prompt Injection: Indirect",
+    "state": "covered",
+    "detections": [
+      "Instruction-Like Text In RAG Retrieved Content"
+    ],
+    "data_sources": [
+      "RAG retrieval logs",
+      "ingestion pipeline logs"
+    ],
+    "framework": "ATLAS"
+  },
+  {
+    "technique": "AML.T0054",
+    "name": "LLM Jailbreak",
+    "state": "gap",
+    "detections": [],
+    "data_sources": [
+      "prompt/response logs",
+      "guardrail verdict logs"
+    ],
+    "framework": "ATLAS"
+  },
+  {
+    "technique": "AML.T0057",
+    "name": "LLM Data Leakage",
+    "state": "gap",
+    "detections": [],
+    "data_sources": [
+      "response DLP scan",
+      "guardrail logs"
+    ],
+    "framework": "ATLAS"
+  },
+  {
+    "technique": "T1213",
+    "name": "Data from Information Repositories",
+    "state": "covered",
+    "detections": [
+      "Instruction-Like Text In RAG Retrieved Content"
+    ],
+    "data_sources": [
+      "SharePoint/Confluence audit logs"
+    ],
+    "framework": "ATT&CK"
+  }
+]

@@ -1,0 +1,109 @@
+"""
+sigma_tools.py - detection-as-code: validate Sigma rules and convert to SPL.
+
+Workflow this supports (the CTI -> Detection Engineering handoff):
+  1. CTI writes or adapts a Sigma rule, tagged with ATT&CK IDs and the
+     hypothesis ID, and opens a merge request in the detections repo.
+  2. CI runs this module: parse/validate every rule, convert to Splunk SPL
+     with the right processing pipeline, fail the build on errors.
+  3. Detection Engineering reviews, tests against Attack Range / replayed data,
+     tunes, and promotes to production (status experimental -> test -> stable).
+  4. The ATT&CK tags on each rule feed the coverage map in attack.py.
+
+pySigma notes:
+  * `sigma-cli` / pySigma replaced the old `sigmac` tool.
+  * Splunk backend: pysigma-backend-splunk. Use splunk_windows_pipeline() for
+    Windows rules (field mapping to Splunk Windows TA / Sysmon names);
+    `splunk_cim_data_model()` for CIM / data-model accelerated searches.
+  * Sigma 2.0 correlation rules (event_count, value_count, temporal) convert
+    to SPL; `temporal_ordered` is not supported by the Splunk backend at time
+    of writing, so ordered sequences get a hand-tuned SPL alongside.
+"""
+
+from __future__ import annotations
+
+import logging
+import re
+from pathlib import Path
+
+import yaml
+
+log = logging.getLogger("ctikit.sigma")
+
+_ATTACK_TAG = re.compile(r"^attack\.(t\d{4}(?:\.\d{3})?)$", re.I)
+
+
+def rule_docs(path: Path) -> list[dict]:
+    """A Sigma file may hold several YAML documents (base rules + correlation)."""
+    return [d for d in yaml.safe_load_all(path.read_text()) if d]
+
+
+def techniques_in_repo(rules_dir: Path) -> dict[str, list[str]]:
+    """Map ATT&CK technique ID -> list of rule titles that cover it.
+
+    This is the detection inventory side of the coverage calculation. In a
+    real program you would also pull deployed searches from Splunk (REST
+    /servicesNS/-/-/saved/searches) and EDR custom rules, because "a Sigma
+    file exists" is not the same as "a detection is running in prod".
+    """
+    cov: dict[str, list[str]] = {}
+    for f in sorted(rules_dir.glob("*.yml")):
+        for d in rule_docs(f):
+            if d.get("status") in ("deprecated", "unsupported"):
+                continue
+            for tag in d.get("tags", []) or []:
+                m = _ATTACK_TAG.match(str(tag))
+                if m:
+                    cov.setdefault(m.group(1).upper(), []).append(d.get("title", f.name))
+            # ATLAS has no Sigma tag namespace, so rules carry a custom
+            # top-level `atlas:` list that we read here.
+            for aid in d.get("atlas", []) or []:
+                cov.setdefault(str(aid), []).append(d.get("title", f.name))
+    return cov
+
+
+def convert_to_spl(rules_dir: Path, out_dir: Path) -> dict:
+    """Validate + convert every rule. Returns a summary for metrics/CI.
+
+    Output: out_dir/sigma_converted.spl and out_dir/savedsearches.conf
+    """
+    try:
+        from sigma.collection import SigmaCollection
+        from sigma.backends.splunk import SplunkBackend
+        from sigma.pipelines.splunk import splunk_windows_pipeline
+    except ImportError:
+        log.warning("pySigma not installed - pip install pysigma pysigma-backend-splunk")
+        return {"converted": 0, "errors": ["pySigma not installed"], "skipped": True}
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    lines, stanzas, errors, n = [], [], [], 0
+    for f in sorted(rules_dir.glob("*.yml")):
+        try:
+            col = SigmaCollection.from_yaml(f.read_text())
+            # Pick the field-mapping pipeline by logsource product.
+            products = {getattr(r.logsource, "product", None) for r in col.rules
+                        if hasattr(r, "logsource")}
+            backend = SplunkBackend(splunk_windows_pipeline()) if "windows" in products else SplunkBackend()
+            queries = backend.convert(col)
+        except Exception as e:  # noqa: BLE001 - CI should report every bad rule, not stop at the first
+            errors.append(f"{f.name}: {type(e).__name__}: {e}")
+            continue
+        docs = rule_docs(f)
+        # Correlation files return one query for the correlation; base rules
+        # referenced by name are folded in. Title the output by the last doc.
+        title = docs[-1].get("title", f.stem)
+        for q in queries:
+            n += 1
+            lines.append(f"``` {f.name} :: {title} ```\n{q.strip()}\n")
+            name = f"CTI - {title}"[:100]
+            spl_one_line = " ".join(q.split())
+            stanzas.append(
+                f"[{name}]\nsearch = {spl_one_line}\n"
+                f"description = Generated from {f.name} (Sigma) - review field mappings before enabling\n"
+                f"disabled = 1\ncron_schedule = */15 * * * *\n"
+                f"dispatch.earliest_time = -20m\ndispatch.latest_time = now\n")
+    (out_dir / "sigma_converted.spl").write_text("\n".join(lines))
+    (out_dir / "savedsearches.conf").write_text(
+        "# Generated by ctikit - all searches ship DISABLED; Detection Engineering enables after tuning\n\n"
+        + "\n".join(stanzas))
+    return {"converted": n, "errors": errors, "skipped": False}

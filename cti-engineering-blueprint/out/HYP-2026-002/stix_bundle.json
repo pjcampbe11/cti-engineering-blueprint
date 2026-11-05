@@ -1,0 +1,117 @@
+{
+  "type": "bundle",
+  "id": "bundle--adfcc208-fe84-4277-82d3-c4054996588c",
+  "objects": [
+    {
+      "type": "identity",
+      "id": "identity--551636a8-f711-5572-8cf3-421326a27d26",
+      "name": "Bank CTI (demo)",
+      "identity_class": "organization",
+      "spec_version": "2.1",
+      "created": "2026-11-05T16:50:22.492Z",
+      "modified": "2026-11-05T16:50:22.492Z",
+      "object_marking_refs": [
+        "marking-definition--f88d31f6-486f-44da-b317-01333bde0b82"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--83a13a2f-ac46-52ba-8474-26824c58b2e1",
+      "name": "LLM Prompt Injection: Indirect",
+      "external_references": [
+        {
+          "source_name": "mitre-atlas",
+          "external_id": "AML.T0051.001",
+          "url": "https://atlas.mitre.org/techniques/AML.T0051.001"
+        }
+      ],
+      "spec_version": "2.1",
+      "created": "2026-11-05T16:50:22.492Z",
+      "modified": "2026-11-05T16:50:22.492Z",
+      "object_marking_refs": [
+        "marking-definition--f88d31f6-486f-44da-b317-01333bde0b82"
+      ],
+      "created_by_ref": "identity--551636a8-f711-5572-8cf3-421326a27d26"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--91331d32-4a4b-5718-883f-a5350c0f87cf",
+      "name": "LLM Jailbreak",
+      "external_references": [
+        {
+          "source_name": "mitre-atlas",
+          "external_id": "AML.T0054",
+          "url": "https://atlas.mitre.org/techniques/AML.T0054"
+        }
+      ],
+      "spec_version": "2.1",
+      "created": "2026-11-05T16:50:22.492Z",
+      "modified": "2026-11-05T16:50:22.492Z",
+      "object_marking_refs": [
+        "marking-definition--f88d31f6-486f-44da-b317-01333bde0b82"
+      ],
+      "created_by_ref": "identity--551636a8-f711-5572-8cf3-421326a27d26"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--99c844e5-f8a3-5718-80da-e5d6014410a7",
+      "name": "LLM Data Leakage",
+      "external_references": [
+        {
+          "source_name": "mitre-atlas",
+          "external_id": "AML.T0057",
+          "url": "https://atlas.mitre.org/techniques/AML.T0057"
+        }
+      ],
+      "spec_version": "2.1",
+      "created": "2026-11-05T16:50:22.492Z",
+      "modified": "2026-11-05T16:50:22.492Z",
+      "object_marking_refs": [
+        "marking-definition--f88d31f6-486f-44da-b317-01333bde0b82"
+      ],
+      "created_by_ref": "identity--551636a8-f711-5572-8cf3-421326a27d26"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--7dcb65b9-c32f-54c5-97e5-5f1ca889e647",
+      "name": "Data from Information Repositories",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1213",
+          "url": "https://attack.mitre.org/techniques/T1213/"
+        }
+      ],
+      "spec_version": "2.1",
+      "created": "2026-11-05T16:50:22.492Z",
+      "modified": "2026-11-05T16:50:22.492Z",
+      "object_marking_refs": [
+        "marking-definition--f88d31f6-486f-44da-b317-01333bde0b82"
+      ],
+      "created_by_ref": "identity--551636a8-f711-5572-8cf3-421326a27d26"
+    },
+    {
+      "type": "report",
+      "id": "report--46609c17-8724-5055-a19e-e317c72d7c33",
+      "name": "HYP-2026-002: Indirect prompt injection against an internal RAG assistant to leak customer or internal data",
+      "description": "An adversary who can place content in a source our internal RAG assistant indexes (shared drive, wiki, inbound email, vendor portal) can embed instructions that cause the assistant to reveal data from other retrieved documents or call tools outside the user's intent. If true, we should see retrieved chunks containing instruction-like text, model outputs containing data classes the requesting user is not entitled to, and tool calls that do not trace to the user's prompt.\n",
+      "report_types": [
+        "attack-pattern"
+      ],
+      "published": "2026-11-05T16:50:22.492Z",
+      "object_refs": [
+        "attack-pattern--83a13a2f-ac46-52ba-8474-26824c58b2e1",
+        "attack-pattern--91331d32-4a4b-5718-883f-a5350c0f87cf",
+        "attack-pattern--99c844e5-f8a3-5718-80da-e5d6014410a7",
+        "attack-pattern--7dcb65b9-c32f-54c5-97e5-5f1ca889e647"
+      ],
+      "spec_version": "2.1",
+      "created": "2026-11-05T16:50:22.492Z",
+      "modified": "2026-11-05T16:50:22.492Z",
+      "object_marking_refs": [
+        "marking-definition--f88d31f6-486f-44da-b317-01333bde0b82"
+      ],
+      "created_by_ref": "identity--551636a8-f711-5572-8cf3-421326a27d26"
+    }
+  ]
+}

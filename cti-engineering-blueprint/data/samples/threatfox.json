@@ -1,0 +1,78 @@
+{
+  "query_status": "ok",
+  "data": [
+    {
+      "ioc": "203.0.113.45:443",
+      "ioc_type": "ip:port",
+      "threat_type": "botnet_cc",
+      "malware": "win.screenconnect_abuse",
+      "malware_printable": "ScreenConnect (abused)",
+      "confidence_level": 75,
+      "first_seen": "2026-10-28 14:02:11 UTC",
+      "last_seen": "2026-11-03 09:10:00 UTC",
+      "tags": [
+        "rmm",
+        "scattered spider"
+      ],
+      "reporter": "synthetic"
+    },
+    {
+      "ioc": "okta-sso-helpdesk.example",
+      "ioc_type": "domain",
+      "threat_type": "payload_delivery",
+      "malware": "unknown",
+      "malware_printable": "Unknown",
+      "confidence_level": 90,
+      "first_seen": "2026-10-30 08:15:00 UTC",
+      "last_seen": null,
+      "tags": [
+        "okta",
+        "sso-phish",
+        "UNC3944"
+      ],
+      "reporter": "synthetic"
+    },
+    {
+      "ioc": "198.51.100.23:8041",
+      "ioc_type": "ip:port",
+      "threat_type": "botnet_cc",
+      "malware": "win.anydesk_abuse",
+      "malware_printable": "AnyDesk (abused)",
+      "confidence_level": 60,
+      "first_seen": "2026-10-25 11:00:00 UTC",
+      "last_seen": "2026-11-01 11:00:00 UTC",
+      "tags": [
+        "rmm"
+      ],
+      "reporter": "synthetic"
+    },
+    {
+      "ioc": "192.0.2.200:80",
+      "ioc_type": "ip:port",
+      "threat_type": "botnet_cc",
+      "malware": "win.unrelated_stealer",
+      "malware_printable": "UnrelatedStealer",
+      "confidence_level": 50,
+      "first_seen": "2026-10-20 00:00:00 UTC",
+      "last_seen": null,
+      "tags": [
+        "stealer"
+      ],
+      "reporter": "synthetic"
+    },
+    {
+      "ioc": "10.20.30.40:443",
+      "ioc_type": "ip:port",
+      "threat_type": "botnet_cc",
+      "malware": "win.screenconnect_abuse",
+      "malware_printable": "ScreenConnect (abused)",
+      "confidence_level": 50,
+      "first_seen": "2026-10-29 00:00:00 UTC",
+      "last_seen": null,
+      "tags": [
+        "rmm"
+      ],
+      "reporter": "synthetic-sandbox-noise"
+    }
+  ]
+}

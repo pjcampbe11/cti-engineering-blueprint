@@ -1,0 +1,119 @@
+{
+  "name": "HYP-2026-001 expected TTP coverage",
+  "versions": {
+    "attack": "20",
+    "navigator": "5.1.0",
+    "layer": "4.5"
+  },
+  "domain": "enterprise-attack",
+  "description": "Help-desk social engineering leading to identity provider takeover and RMM persistence",
+  "techniques": [
+    {
+      "techniqueID": "T1656",
+      "score": 100,
+      "color": "#31a354",
+      "comment": "COVERED | detections: MFA Reset Followed By New Factor Enrollment Within 60 Minutes | data sources: ITSM ticket logs, call recordings metadata",
+      "enabled": true,
+      "metadata": [
+        {
+          "name": "hypothesis",
+          "value": "HYP-2026-001"
+        }
+      ]
+    },
+    {
+      "techniqueID": "T1566.004",
+      "score": 0,
+      "color": "#de2d26",
+      "comment": "GAP | detections: none | data sources: ITSM ticket logs",
+      "enabled": true,
+      "metadata": [
+        {
+          "name": "hypothesis",
+          "value": "HYP-2026-001"
+        }
+      ]
+    },
+    {
+      "techniqueID": "T1621",
+      "score": 100,
+      "color": "#31a354",
+      "comment": "COVERED | detections: Okta Verify Push Denied By User, MFA Push Fatigue - Multiple Okta Verify Denials For One User | data sources: Okta System Log, Entra ID sign-in logs",
+      "enabled": true,
+      "metadata": [
+        {
+          "name": "hypothesis",
+          "value": "HYP-2026-001"
+        }
+      ]
+    },
+    {
+      "techniqueID": "T1098.005",
+      "score": 100,
+      "color": "#31a354",
+      "comment": "COVERED | detections: Okta MFA Factors Reset (Help Desk / Admin), Okta MFA Factor Activated, MFA Reset Followed By New Factor Enrollment Within 60 Minutes | data sources: Okta System Log, Entra ID audit logs",
+      "enabled": true,
+      "metadata": [
+        {
+          "name": "hypothesis",
+          "value": "HYP-2026-001"
+        }
+      ]
+    },
+    {
+      "techniqueID": "T1078.004",
+      "score": 0,
+      "color": "#de2d26",
+      "comment": "GAP | detections: none | data sources: IdP sign-in logs, CASB",
+      "enabled": true,
+      "metadata": [
+        {
+          "name": "hypothesis",
+          "value": "HYP-2026-001"
+        }
+      ]
+    },
+    {
+      "techniqueID": "T1219",
+      "score": 100,
+      "color": "#31a354",
+      "comment": "COVERED | detections: Unapproved Remote Monitoring and Management Tool Execution | data sources: EDR process events, Sysmon EID 1, DNS, proxy",
+      "enabled": true,
+      "metadata": [
+        {
+          "name": "hypothesis",
+          "value": "HYP-2026-001"
+        }
+      ]
+    },
+    {
+      "techniqueID": "T1567.002",
+      "score": 0,
+      "color": "#de2d26",
+      "comment": "GAP | detections: none | data sources: proxy, CASB, EDR network events",
+      "enabled": true,
+      "metadata": [
+        {
+          "name": "hypothesis",
+          "value": "HYP-2026-001"
+        }
+      ]
+    }
+  ],
+  "legendItems": [
+    {
+      "label": "Covered",
+      "color": "#31a354"
+    },
+    {
+      "label": "Partial (parent/sub-technique only)",
+      "color": "#fec44f"
+    },
+    {
+      "label": "Gap",
+      "color": "#de2d26"
+    }
+  ],
+  "showTacticRowBackground": true,
+  "selectTechniquesAcrossTactics": true
+}

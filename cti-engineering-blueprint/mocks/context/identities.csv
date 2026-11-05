@@ -1,0 +1,4 @@
+user,privileged,groups,vip
+jdoe,false,Finance,false
+adm-rsmith,true,Server Admins,false
+adm-tlee,true,Desktop Admins,false

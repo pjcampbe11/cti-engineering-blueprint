@@ -1,0 +1,7 @@
+``` Detections actually deployed against EDR data in the SIEM (example).
+    field_budget.py reads these to learn which fields detections use. ```
+index=edr event_simpleName=ProcessRollup2 ParentBaseFileName IN ("winword.exe","excel.exe") ImageFileName IN ("*\\powershell.exe","*\\cmd.exe")
+| table _time ComputerName UserName CommandLine SHA256HashData
+
+index=edr event_simpleName=ProcessRollup2 CommandLine="*-enc*" IntegrityLevel=12288
+| stats count by ComputerName UserName CommandLine

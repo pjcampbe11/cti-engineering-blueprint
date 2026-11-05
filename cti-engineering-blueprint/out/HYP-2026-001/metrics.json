@@ -1,0 +1,45 @@
+{
+  "raw_observables_collected": 17,
+  "unique_after_dedupe": 14,
+  "dedupe_ratio": 0.176,
+  "corroborated_multi_source": 2,
+  "hypothesis_relevant": 10,
+  "relevance_rate": 0.714,
+  "action_block": 3,
+  "action_detect": 4,
+  "action_hunt": 5,
+  "action_drop": 2,
+  "expired": 1,
+  "ttp_coverage_pct": 57,
+  "sigma_rules_converted": 4,
+  "sigma_errors": 0,
+  "stix_bundle_valid": true,
+  "feeds_ok": 5,
+  "feeds_failed": 0,
+  "run_seconds": 0.3,
+  "feed_detail": {
+    "threatfox": {
+      "status": "ok",
+      "count": 4
+    },
+    "urlhaus": {
+      "status": "ok",
+      "count": 6
+    },
+    "malwarebazaar": {
+      "status": "ok",
+      "count": 3
+    },
+    "threatstream": {
+      "status": "ok",
+      "count": 2
+    },
+    "taxii": {
+      "status": "ok",
+      "count": 2
+    }
+  },
+  "yara_rules_compiled": 2,
+  "lookup_rows": 10,
+  "threatstream_objects_staged": 7
+}

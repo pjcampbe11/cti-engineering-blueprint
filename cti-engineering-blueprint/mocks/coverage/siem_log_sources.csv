@@ -1,0 +1,5 @@
+hostname,sourcetype,last_event
+srv-win-legacy01,XmlWinEventLog:Microsoft-Windows-Sysmon/Operational,2026-11-05T12:00:00Z
+lnx-rhel6-batch01,linux:audit,2026-11-05T12:00:00Z
+swift-gw-01,syslog,2026-11-05T12:00:00Z
+zos-prod-a,syslog:racf,2026-11-05T12:00:00Z

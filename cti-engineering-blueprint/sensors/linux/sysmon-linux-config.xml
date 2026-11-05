@@ -1,0 +1,39 @@
+<!--
+  Sysmon for Linux (Sysinternals, eBPF-based; github.com/Sysinternals/SysmonForLinux).
+  Same XML filtering model as Windows Sysmon; events go to syslog/journald.
+  Supported Linux event IDs include 1 ProcessCreate, 3 NetworkConnect,
+  5 ProcessTerminate, 9 RawAccessRead, 11 FileCreate, 23 FileDelete.
+  Requires a kernel with eBPF support (check the project's supported distro list);
+  for old kernels use the auditd rules in this folder instead.
+  Install: sysmon -accepteula -i sysmon-linux-config.xml
+  Set schemaversion to the value `sysmon -s` prints on your build.
+-->
+<Sysmon schemaversion="4.70">
+  <EventFiltering>
+    <RuleGroup name="proc" groupRelation="or">
+      <ProcessCreate onmatch="exclude">
+        <Image condition="is">/usr/bin/sleep</Image>
+      </ProcessCreate>
+    </RuleGroup>
+    <RuleGroup name="net" groupRelation="or">
+      <NetworkConnect onmatch="include">
+        <Image name="technique_id=T1059.004,technique_name=Unix Shell" condition="end with">/bash</Image>
+        <Image name="technique_id=T1059.004,technique_name=Unix Shell" condition="end with">/sh</Image>
+        <Image name="technique_id=T1105,technique_name=Ingress Tool Transfer" condition="end with">/curl</Image>
+        <Image name="technique_id=T1105,technique_name=Ingress Tool Transfer" condition="end with">/wget</Image>
+        <Image name="technique_id=T1059.006,technique_name=Python" condition="contains">/python</Image>
+        <Image name="technique_id=T1095,technique_name=Non-Application Layer Protocol" condition="end with">/nc</Image>
+        <Image name="technique_id=T1095,technique_name=Non-Application Layer Protocol" condition="end with">/socat</Image>
+      </NetworkConnect>
+    </RuleGroup>
+    <RuleGroup name="file" groupRelation="or">
+      <FileCreate onmatch="include">
+        <TargetFilename name="technique_id=T1053.003,technique_name=Cron" condition="begin with">/etc/cron</TargetFilename>
+        <TargetFilename name="technique_id=T1053.003,technique_name=Cron" condition="begin with">/var/spool/cron</TargetFilename>
+        <TargetFilename name="technique_id=T1098.004,technique_name=SSH Authorized Keys" condition="end with">authorized_keys</TargetFilename>
+        <TargetFilename name="technique_id=T1543.002,technique_name=Systemd Service" condition="begin with">/etc/systemd/system</TargetFilename>
+        <TargetFilename name="technique_id=T1574.006,technique_name=Dynamic Linker Hijacking" condition="is">/etc/ld.so.preload</TargetFilename>
+      </FileCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

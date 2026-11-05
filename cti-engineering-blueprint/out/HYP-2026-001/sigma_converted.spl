@@ -1,0 +1,23 @@
+``` ai_gateway_indirect_prompt_injection.yml :: Instruction-Like Text In RAG Retrieved Content ```
+retrieved_chunk IN ("*ignore previous instructions*", "*ignore all prior instructions*", "*disregard the system prompt*", "*you are now in developer mode*", "*do not tell the user*", "*send the contents to*")
+
+``` okta_mfa_push_denial_burst.yml :: MFA Push Fatigue - Multiple Okta Verify Denials For One User ```
+eventtype="user.mfa.okta_verify.deny_push"
+
+| bin _time span=10m
+| stats count as event_count by _time actor.alternateid
+
+| search event_count >= 5
+
+``` okta_mfa_reset_then_new_factor.yml :: MFA Reset Followed By New Factor Enrollment Within 60 Minutes ```
+| multisearch
+[ search eventtype="user.mfa.factor.reset_all" | eval event_type="okta_factor_reset" | rename target.alternateid as identity ]
+[ search eventtype="user.mfa.factor.activate" | eval event_type="okta_factor_activate" | rename actor.alternateid as identity ]
+
+| bin _time span=60m
+| stats dc(event_type) as event_type_count by _time identity
+
+| search event_type_count >= 2
+
+``` win_rmm_unapproved_execution.yml :: Unapproved Remote Monitoring and Management Tool Execution ```
+(Image IN ("*\\ScreenConnect.ClientService.exe", "*\\ScreenConnect.WindowsClient.exe", "*\\AnyDesk.exe", "*\\AteraAgent.exe", "*\\SRService.exe", "*\\Splashtop_Streamer.exe", "*\\tacticalrmm.exe", "*\\fleetdeck_agent.exe") OR OriginalFileName IN ("ScreenConnect.ClientService.exe", "AnyDesk.exe", "AteraAgent.exe")) NOT Image="C:\\Program Files\\BankApprovedRMM\\*"

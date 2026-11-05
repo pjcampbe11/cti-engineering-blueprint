@@ -1,0 +1,178 @@
+{
+  "meta": {
+    "classification": "private",
+    "allow_unresolved": true,
+    "intelligence_source": "ctikit HYP-2026-001",
+    "confidence": 50
+  },
+  "objects": [
+    {
+      "value": "203.0.113.45",
+      "itype": "mal_ip",
+      "confidence": 80,
+      "tags": [
+        {
+          "name": "UNC3944",
+          "tlp": "red"
+        },
+        {
+          "name": "hypothesis-relevant",
+          "tlp": "red"
+        },
+        {
+          "name": "port:443",
+          "tlp": "red"
+        },
+        {
+          "name": "rmm",
+          "tlp": "red"
+        },
+        {
+          "name": "scattered spider",
+          "tlp": "red"
+        }
+      ],
+      "expiration_ts": "2026-12-03T09:10:00.000"
+    },
+    {
+      "value": "okta-sso-helpdesk.example",
+      "itype": "phish_domain",
+      "confidence": 90,
+      "tags": [
+        {
+          "name": "Scattered Spider",
+          "tlp": "red"
+        },
+        {
+          "name": "UNC3944",
+          "tlp": "red"
+        },
+        {
+          "name": "hypothesis-relevant",
+          "tlp": "red"
+        },
+        {
+          "name": "okta",
+          "tlp": "red"
+        },
+        {
+          "name": "phish_domain",
+          "tlp": "red"
+        },
+        {
+          "name": "sso-phish",
+          "tlp": "red"
+        }
+      ],
+      "expiration_ts": "2027-01-28T08:15:00.000"
+    },
+    {
+      "value": "https://okta-sso-helpdesk.example/login/reset",
+      "itype": "phish_url",
+      "confidence": 57,
+      "tags": [
+        {
+          "name": "hypothesis-relevant",
+          "tlp": "red"
+        },
+        {
+          "name": "okta",
+          "tlp": "red"
+        },
+        {
+          "name": "sso-phish",
+          "tlp": "red"
+        }
+      ],
+      "expiration_ts": "2026-11-29T09:00:00.000"
+    },
+    {
+      "value": "https://files-share-cdn.test/ScreenConnect.ClientSetup.exe",
+      "itype": "mal_url",
+      "confidence": 58,
+      "tags": [
+        {
+          "name": "hypothesis-relevant",
+          "tlp": "red"
+        },
+        {
+          "name": "rmm",
+          "tlp": "red"
+        },
+        {
+          "name": "screenconnect",
+          "tlp": "red"
+        }
+      ],
+      "expiration_ts": "2026-12-01T16:30:00.000"
+    },
+    {
+      "value": "files-share-cdn.test",
+      "itype": "mal_domain",
+      "confidence": 55,
+      "tags": [
+        {
+          "name": "hypothesis-relevant",
+          "tlp": "red"
+        },
+        {
+          "name": "rmm",
+          "tlp": "red"
+        },
+        {
+          "name": "screenconnect",
+          "tlp": "red"
+        }
+      ],
+      "expiration_ts": "2027-01-30T16:30:00.000"
+    },
+    {
+      "value": "203.0.113.77",
+      "itype": "mal_ip",
+      "confidence": 71,
+      "tags": [
+        {
+          "name": "UNC3944",
+          "tlp": "red"
+        },
+        {
+          "name": "c2_ip",
+          "tlp": "red"
+        },
+        {
+          "name": "hypothesis-relevant",
+          "tlp": "red"
+        },
+        {
+          "name": "rmm",
+          "tlp": "red"
+        }
+      ],
+      "expiration_ts": "2026-12-02T12:00:00.000"
+    },
+    {
+      "value": "servicedesk-mfa-reset.example",
+      "itype": "phish_domain",
+      "confidence": 73,
+      "tags": [
+        {
+          "name": "helpdesk",
+          "tlp": "red"
+        },
+        {
+          "name": "hypothesis-relevant",
+          "tlp": "red"
+        },
+        {
+          "name": "scattered spider",
+          "tlp": "red"
+        },
+        {
+          "name": "sso-phish",
+          "tlp": "red"
+        }
+      ],
+      "expiration_ts": "2027-01-31T15:00:00.000"
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+indicator,type,score,priority,action,tags,malware_family,threat_actor,attack_techniques,sources,first_seen,expires,tlp,hypothesis
+203.0.113.45,ipv4-addr,80,high,block,rmm|scattered spider|port:443,ScreenConnect,scattered spider,T1219,abusech:threatfox|taxii:fs-isac,2026-10-28T14:02:11.000Z,2026-12-03T09:10:00.000Z,TLP:AMBER,HYP-2026-001
+files-share-cdn.test,domain-name,56,medium,detect,rmm|screenconnect,,,T1219,abusech:urlhaus,2026-11-01T16:30:00.000Z,2027-01-30T16:30:00.000Z,TLP:AMBER,HYP-2026-001

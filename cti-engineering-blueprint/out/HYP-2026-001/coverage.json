@@ -1,0 +1,92 @@
+[
+  {
+    "technique": "T1656",
+    "name": "Impersonation",
+    "state": "covered",
+    "detections": [
+      "MFA Reset Followed By New Factor Enrollment Within 60 Minutes"
+    ],
+    "data_sources": [
+      "ITSM ticket logs",
+      "call recordings metadata"
+    ],
+    "framework": "ATT&CK"
+  },
+  {
+    "technique": "T1566.004",
+    "name": "Phishing: Spearphishing Voice",
+    "state": "gap",
+    "detections": [],
+    "data_sources": [
+      "ITSM ticket logs"
+    ],
+    "framework": "ATT&CK"
+  },
+  {
+    "technique": "T1621",
+    "name": "Multi-Factor Authentication Request Generation",
+    "state": "covered",
+    "detections": [
+      "Okta Verify Push Denied By User",
+      "MFA Push Fatigue - Multiple Okta Verify Denials For One User"
+    ],
+    "data_sources": [
+      "Okta System Log",
+      "Entra ID sign-in logs"
+    ],
+    "framework": "ATT&CK"
+  },
+  {
+    "technique": "T1098.005",
+    "name": "Account Manipulation: Device Registration",
+    "state": "covered",
+    "detections": [
+      "Okta MFA Factors Reset (Help Desk / Admin)",
+      "Okta MFA Factor Activated",
+      "MFA Reset Followed By New Factor Enrollment Within 60 Minutes"
+    ],
+    "data_sources": [
+      "Okta System Log",
+      "Entra ID audit logs"
+    ],
+    "framework": "ATT&CK"
+  },
+  {
+    "technique": "T1078.004",
+    "name": "Valid Accounts: Cloud Accounts",
+    "state": "gap",
+    "detections": [],
+    "data_sources": [
+      "IdP sign-in logs",
+      "CASB"
+    ],
+    "framework": "ATT&CK"
+  },
+  {
+    "technique": "T1219",
+    "name": "Remote Access Software",
+    "state": "covered",
+    "detections": [
+      "Unapproved Remote Monitoring and Management Tool Execution"
+    ],
+    "data_sources": [
+      "EDR process events",
+      "Sysmon EID 1",
+      "DNS",
+      "proxy"
+    ],
+    "framework": "ATT&CK"
+  },
+  {
+    "technique": "T1567.002",
+    "name": "Exfiltration Over Web Service: Exfiltration to Cloud Storage",
+    "state": "gap",
+    "detections": [],
+    "data_sources": [
+      "proxy",
+      "CASB",
+      "EDR network events"
+    ],
+    "framework": "ATT&CK"
+  }
+]

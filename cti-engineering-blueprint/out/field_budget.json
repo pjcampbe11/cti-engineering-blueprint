@@ -1,0 +1,286 @@
+{
+  "sampled_events": 500,
+  "events_per_day": 2000000000,
+  "gb_per_day_all_fields": 2037.62,
+  "gb_per_day_index_only": 914.35,
+  "reduction_pct": 55.1,
+  "index_allowlist": [
+    "CommandLine",
+    "ComputerName",
+    "ImageFileName",
+    "IntegrityLevel",
+    "ParentBaseFileName",
+    "SHA256HashData",
+    "TargetProcessId",
+    "UserName",
+    "aid",
+    "event_simpleName",
+    "timestamp"
+  ],
+  "fields": [
+    {
+      "field": "CommandLine",
+      "class": "INDEX",
+      "why": "referenced by a detection",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 131.0,
+      "distinct_sampled": 120
+    },
+    {
+      "field": "SHA256HashData",
+      "class": "INDEX",
+      "why": "pivot/routing key",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 82.0,
+      "distinct_sampled": 30
+    },
+    {
+      "field": "ImageFileName",
+      "class": "INDEX",
+      "why": "referenced by a detection",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 69.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "event_simpleName",
+      "class": "INDEX",
+      "why": "pivot/routing key",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 34.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "ParentBaseFileName",
+      "class": "INDEX",
+      "why": "referenced by a detection",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 34.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "timestamp",
+      "class": "INDEX",
+      "why": "pivot/routing key",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 33.0,
+      "distinct_sampled": 60
+    },
+    {
+      "field": "TargetProcessId",
+      "class": "INDEX",
+      "why": "pivot/routing key",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 30.0,
+      "distinct_sampled": 500
+    },
+    {
+      "field": "ComputerName",
+      "class": "INDEX",
+      "why": "pivot/routing key",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 23.0,
+      "distinct_sampled": 50
+    },
+    {
+      "field": "IntegrityLevel",
+      "class": "INDEX",
+      "why": "referenced by a detection",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 23.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "UserName",
+      "class": "INDEX",
+      "why": "pivot/routing key",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 17.9,
+      "distinct_sampled": 80
+    },
+    {
+      "field": "aid",
+      "class": "INDEX",
+      "why": "pivot/routing key",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 14.0,
+      "distinct_sampled": 50
+    },
+    {
+      "field": "SHA1HashData",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 56.0,
+      "distinct_sampled": 30
+    },
+    {
+      "field": "MD5HashData",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 47.0,
+      "distinct_sampled": 30
+    },
+    {
+      "field": "cid",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 39.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "GrandParentBaseFileName",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 38.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "ProcessStartTime",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 34.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "ConfigBuild",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 31.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "EffectiveTransmissionClass",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 31.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "ParentProcessId",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 30.0,
+      "distinct_sampled": 500
+    },
+    {
+      "field": "SourceProcessId",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 30.0,
+      "distinct_sampled": 500
+    },
+    {
+      "field": "ProcessParameterFlags",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 30.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "ConfigStateHash",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 29.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "SourceThreadId",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 28.0,
+      "distinct_sampled": 500
+    },
+    {
+      "field": "name",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 25.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "CpuSignature",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 22.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "event_platform",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 21.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "RawProcessId",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 20.0,
+      "distinct_sampled": 500
+    },
+    {
+      "field": "ImageSubsystem",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 19.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "Entitlements",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 18.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "ProductType",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 16.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "TokenType",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 14.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "SessionId",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 14.0,
+      "distinct_sampled": 1
+    },
+    {
+      "field": "TreeId",
+      "class": "PIVOT",
+      "why": "not used by detections - fetch from EDR on demand",
+      "fill_rate": 1.0,
+      "avg_bytes_per_event": 11.1,
+      "distinct_sampled": 2
+    }
+  ]
+}

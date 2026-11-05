@@ -1,0 +1,79 @@
+<Sysmon schemaversion="4.90">
+  <HashAlgorithms>SHA256,IMPHASH</HashAlgorithms>
+  <CheckRevocation/>
+  <EventFiltering>
+    <!-- module: 01_process_create.xml -->
+    <RuleGroup name="process_create" groupRelation="or">
+      <ProcessCreate onmatch="exclude">
+        <Image condition="is">C:\Windows\System32\conhost.exe</Image>
+        <Image condition="is">C:\Windows\System32\backgroundTaskHost.exe</Image>
+        <Image condition="is">C:\Windows\System32\SearchProtocolHost.exe</Image>
+        <Image condition="is">C:\Windows\System32\SearchFilterHost.exe</Image>
+        <ParentImage condition="is">C:\Windows\System32\wbem\WmiPrvSE.exe</ParentImage>
+      </ProcessCreate>
+    </RuleGroup>
+    <!-- module: 03_network_connect.xml -->
+    <RuleGroup name="network_connect" groupRelation="or">
+      <NetworkConnect onmatch="include">
+        <Image name="technique_id=T1059.001,technique_name=PowerShell" condition="end with">\powershell.exe</Image>
+        <Image name="technique_id=T1059.001,technique_name=PowerShell" condition="end with">\pwsh.exe</Image>
+        <Image name="technique_id=T1218.011,technique_name=Rundll32" condition="end with">\rundll32.exe</Image>
+        <Image name="technique_id=T1218.010,technique_name=Regsvr32" condition="end with">\regsvr32.exe</Image>
+        <Image name="technique_id=T1218.005,technique_name=Mshta" condition="end with">\mshta.exe</Image>
+        <Image name="technique_id=T1105,technique_name=Ingress Tool Transfer" condition="end with">\certutil.exe</Image>
+        <Image name="technique_id=T1105,technique_name=Ingress Tool Transfer" condition="end with">\bitsadmin.exe</Image>
+        <Image name="technique_id=T1219,technique_name=Remote Access Software" condition="contains any">ScreenConnect;AnyDesk;AteraAgent;Splashtop;TeamViewer;tacticalrmm</Image>
+        <Image name="technique_id=T1204.002,technique_name=Malicious File" condition="contains any">\AppData\;\Temp\;\Users\Public\;\ProgramData\</Image>
+      </NetworkConnect>
+    </RuleGroup>
+    <!-- module: 08_10_injection_and_lsass.xml -->
+    <RuleGroup name="remote_thread" groupRelation="or">
+      <CreateRemoteThread onmatch="exclude">
+        <SourceImage condition="is">C:\Windows\System32\svchost.exe</SourceImage>
+        <SourceImage condition="is">C:\Windows\System32\csrss.exe</SourceImage>
+      </CreateRemoteThread>
+    </RuleGroup>
+    <RuleGroup name="lsass_access" groupRelation="and">
+      <ProcessAccess onmatch="include">
+        <TargetImage name="technique_id=T1003.001,technique_name=LSASS Memory" condition="end with">\lsass.exe</TargetImage>
+        <GrantedAccess condition="contains any">0x1010;0x1410;0x1438;0x143a;0x1fffff</GrantedAccess>
+      </ProcessAccess>
+    </RuleGroup>
+    <!-- module: 11_file_create.xml -->
+    <RuleGroup name="file_create" groupRelation="or">
+      <FileCreate onmatch="include">
+        <TargetFilename name="technique_id=T1547.001,technique_name=Startup Folder" condition="contains">\Start Menu\Programs\Startup\</TargetFilename>
+        <TargetFilename name="technique_id=T1053.005,technique_name=Scheduled Task" condition="begin with">C:\Windows\System32\Tasks\</TargetFilename>
+        <TargetFilename name="technique_id=T1059,technique_name=Script staged" condition="end with">.ps1</TargetFilename>
+        <TargetFilename name="technique_id=T1059,technique_name=Script staged" condition="end with">.vbs</TargetFilename>
+        <TargetFilename name="technique_id=T1059,technique_name=Script staged" condition="end with">.js</TargetFilename>
+        <TargetFilename name="technique_id=T1059,technique_name=Script staged" condition="end with">.hta</TargetFilename>
+        <TargetFilename name="technique_id=T1059,technique_name=Script staged" condition="end with">.bat</TargetFilename>
+        <TargetFilename name="technique_id=T1059,technique_name=Script staged" condition="end with">.cmd</TargetFilename>
+        <TargetFilename name="technique_id=T1105,technique_name=Executable staged" condition="end with">.exe</TargetFilename>
+        <TargetFilename name="technique_id=T1105,technique_name=Executable staged" condition="end with">.dll</TargetFilename>
+        <TargetFilename name="technique_id=T1105,technique_name=Executable staged" condition="end with">.scr</TargetFilename>
+      </FileCreate>
+    </RuleGroup>
+    <!-- module: 12_14_registry_persistence.xml -->
+    <RuleGroup name="registry" groupRelation="or">
+      <RegistryEvent onmatch="include">
+        <TargetObject name="technique_id=T1547.001,technique_name=Registry Run Keys" condition="contains">\CurrentVersion\Run</TargetObject>
+        <TargetObject name="technique_id=T1543.003,technique_name=Windows Service" condition="begin with">HKLM\System\CurrentControlSet\Services\</TargetObject>
+        <TargetObject name="technique_id=T1546.015,technique_name=COM Hijacking" condition="contains">\InprocServer32\</TargetObject>
+      </RegistryEvent>
+    </RuleGroup>
+    <!-- module: 22_dns.xml -->
+    <RuleGroup name="dns" groupRelation="or">
+      <DnsQuery onmatch="exclude">
+        <QueryName condition="end with">.windowsupdate.com</QueryName>
+        <QueryName condition="end with">.microsoft.com</QueryName>
+        <QueryName condition="end with">.digicert.com</QueryName>
+      </DnsQuery>
+    </RuleGroup>
+    <!-- module: 25_tampering.xml -->
+    <RuleGroup name="tampering" groupRelation="or">
+      <ProcessTampering onmatch="exclude"/>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

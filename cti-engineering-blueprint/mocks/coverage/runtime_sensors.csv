@@ -1,0 +1,5 @@
+hostname,sensor,last_seen
+lnx-k8s-node-00,wiz-runtime,2026-11-05T12:00:00Z
+lnx-k8s-node-01,wiz-runtime,2026-11-05T12:00:00Z
+lnx-k8s-node-02,wiz-runtime,2026-11-05T12:00:00Z
+lnx-k8s-node-03,wiz-runtime,2026-11-05T12:00:00Z

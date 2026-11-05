@@ -1,0 +1,14 @@
+<!-- Event ID 8 - CreateRemoteThread and Event ID 10 - ProcessAccess.
+     LSASS access with memory-read rights is a high-value credential theft signal. -->
+<RuleGroup name="remote_thread" groupRelation="or">
+  <CreateRemoteThread onmatch="exclude">
+    <SourceImage condition="is">C:\Windows\System32\svchost.exe</SourceImage>
+    <SourceImage condition="is">C:\Windows\System32\csrss.exe</SourceImage>
+  </CreateRemoteThread>
+</RuleGroup>
+<RuleGroup name="lsass_access" groupRelation="and">
+  <ProcessAccess onmatch="include">
+    <TargetImage name="technique_id=T1003.001,technique_name=LSASS Memory" condition="end with">\lsass.exe</TargetImage>
+    <GrantedAccess condition="contains any">0x1010;0x1410;0x1438;0x143a;0x1fffff</GrantedAccess>
+  </ProcessAccess>
+</RuleGroup>

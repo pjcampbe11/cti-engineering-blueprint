@@ -1,0 +1,4 @@
+<!-- Event ID 25 - Process tampering (hollowing / herpaderping). Log all. -->
+<RuleGroup name="tampering" groupRelation="or">
+  <ProcessTampering onmatch="exclude"/>
+</RuleGroup>

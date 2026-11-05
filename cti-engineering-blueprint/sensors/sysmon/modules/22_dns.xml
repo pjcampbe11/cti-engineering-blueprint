@@ -1,0 +1,9 @@
+<!-- Event ID 22 - DNS query. Exclude-mode with noise removal. DNS is the cheapest
+     way to match TIP domains from endpoints that have no EDR. -->
+<RuleGroup name="dns" groupRelation="or">
+  <DnsQuery onmatch="exclude">
+    <QueryName condition="end with">.windowsupdate.com</QueryName>
+    <QueryName condition="end with">.microsoft.com</QueryName>
+    <QueryName condition="end with">.digicert.com</QueryName>
+  </DnsQuery>
+</RuleGroup>

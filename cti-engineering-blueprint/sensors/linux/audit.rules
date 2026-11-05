@@ -1,0 +1,44 @@
+## auditd rules for Linux hosts without EDR (works on old kernels, e.g. RHEL 6/7).
+## Keys (-k) map to ATT&CK so SIEM searches can tag them. Load into
+## /etc/audit/rules.d/50-cti.rules and run `augenrules --load`.
+## Ship /var/log/audit/audit.log with the Splunk UF (sourcetype linux:audit)
+## or forward through audisp/syslog. Volume warning: execve logging is the
+## big one - test on a representative host before fleet rollout.
+
+-D
+-b 8192
+-f 1
+
+## Execution - every program run (T1059). Exclude noisy service accounts by auid if needed.
+## (old auditd, e.g. RHEL 6: use auid!=4294967295 instead of auid!=unset, and one -S per syscall)
+-a always,exit -F arch=b64 -S execve -F auid>=1000 -F auid!=unset -k T1059_exec_user
+-a always,exit -F arch=b64 -S execve -F euid=0 -k T1059_exec_root
+
+## Account manipulation and credentials (T1098, T1003.008)
+-w /etc/passwd -p wa -k T1098_identity
+-w /etc/shadow -p rwa -k T1003.008_shadow
+-w /etc/group -p wa -k T1098_identity
+-w /etc/sudoers -p wa -k T1548.003_sudoers
+-w /etc/sudoers.d/ -p wa -k T1548.003_sudoers
+
+## SSH persistence (T1098.004)
+-w /root/.ssh/ -p wa -k T1098.004_ssh_keys
+-w /etc/ssh/sshd_config -p wa -k T1098.004_sshd_config
+
+## Scheduled tasks and services (T1053.003, T1543.002)
+-w /etc/crontab -p wa -k T1053.003_cron
+-w /etc/cron.d/ -p wa -k T1053.003_cron
+-w /var/spool/cron/ -p wa -k T1053.003_cron
+-w /etc/systemd/system/ -p wa -k T1543.002_systemd
+
+## Library preload hijack (T1574.006)
+-w /etc/ld.so.preload -p wa -k T1574.006_preload
+
+## Kernel modules / rootkits (T1547.006)
+-a always,exit -F arch=b64 -S init_module,finit_module,delete_module -k T1547.006_kmod
+
+## Outbound connections by root - optional, can be high volume (T1071)
+#-a always,exit -F arch=b64 -S connect -F euid=0 -k T1071_root_connect
+
+## Make the configuration immutable until reboot (tamper resistance)
+-e 2

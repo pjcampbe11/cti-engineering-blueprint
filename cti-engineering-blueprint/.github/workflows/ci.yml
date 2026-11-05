@@ -1,0 +1,25 @@
+# CI for detection content, sensor content and integration code.
+name: cti-engineering-ci
+on: [pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r requirements.txt
+      - name: Lifecycle content gate (hypotheses, Sigma -> SPL, YARA)
+        run: python cti.py validate
+      - name: Build Sysmon config from modules
+        run: python sensors/sysmon/build_sysmon.py
+      - name: Unit, end-to-end and mock-vendor tests
+        run: python -m unittest discover -s tests -v
+      - name: Offline demos
+        run: |
+          python cti.py run hypotheses/HYP-2026-001-helpdesk-idp-takeover.yaml --offline
+          python fabric_cli.py pivot --mock
+          python fabric_cli.py coverage --inventory mocks/coverage --now 2026-11-05T15:00:00Z
+          python fabric_cli.py field-budget --sample mocks/field_budget_sample.jsonl --detections mocks/field_budget_detections
+      - uses: actions/upload-artifact@v4
+        with: { name: outputs, path: out/ }

@@ -1,0 +1,136 @@
+# =============================================================================
+# CTI HYPOTHESIS RECORD
+# -----------------------------------------------------------------------------
+# One file per intelligence question. This is the "Direction" phase artifact.
+# It is version-controlled so every change to scope or assumptions is visible,
+# and every downstream product (Sigma rule, STIX bundle, report) carries this
+# ID so you can trace any detection back to the question that produced it.
+#
+# NOTE: all indicators referenced by the demo pipeline are SYNTHETIC
+# (RFC 5737 IP ranges, .example / .test domains, made-up hashes).
+# =============================================================================
+id: HYP-2026-001
+title: Help-desk social engineering leading to identity provider takeover and RMM persistence
+status: active            # draft -> active -> validated | refuted | parked
+tlp: TLP:AMBER
+owner: CTI - Threat Research
+created: 2026-11-04
+review_by: 2026-12-04     # hypotheses get a review date or they rot
+
+# Link back to the standing requirement this question serves. PIRs come from
+# stakeholders (CISO, fraud, SOC, IR) - CTI does not invent its own work.
+requirement:
+  pir: PIR-03
+  text: >
+    Which financially motivated actors are targeting U.S. financial
+    institutions through identity and help-desk channels, and would our
+    current identity, endpoint and SIEM detections catch them?
+  stakeholders: [SOC, IR, Identity Engineering, Fraud, Detection Engineering]
+
+# A good hypothesis is specific and falsifiable. "Attackers might phish us"
+# is not a hypothesis. This one names an actor style, a path, and telemetry
+# that would prove or disprove it.
+statement: >
+  A financially motivated intrusion set using Scattered Spider-style tradecraft
+  is likely to call our IT service desk impersonating employees, obtain an MFA
+  reset, register an attacker-controlled MFA device, and install a commercial
+  remote monitoring and management (RMM) tool for persistence. If that is true,
+  we should see (a) MFA device registrations shortly after help-desk resets,
+  (b) MFA push bursts against the same identities, and (c) RMM binaries that are
+  not on our approved software list executing on endpoints.
+
+actor:
+  name: Scattered Spider
+  attack_group_id: G1015
+  aliases: [UNC3944, Octo Tempest, "0ktapus", Muddled Libra]
+  motivation: financial
+  # Diamond Model vertex notes - filled in as research progresses.
+  diamond:
+    adversary: English-speaking, loosely organized, overlaps with ransomware affiliates
+    capability: vishing, SIM swap, MFA fatigue, legitimate RMM tools, cloud/IdP admin abuse
+    infrastructure: look-alike SSO/help-desk domains, VPS, residential proxies
+    victim: large enterprises incl. financial services, telecom, hospitality, retail
+
+# Expected TTPs. Each one names the telemetry that would show it, which is the
+# bridge from CTI to Detection Engineering. If we do not log the data source,
+# that is a visibility gap and it goes in the report regardless of findings.
+expected_ttps:
+  - id: T1656
+    name: Impersonation
+    data_sources: [ITSM ticket logs, call recordings metadata]
+  - id: T1566.004
+    name: "Phishing: Spearphishing Voice"
+    data_sources: [ITSM ticket logs]
+  - id: T1621
+    name: Multi-Factor Authentication Request Generation
+    data_sources: [Okta System Log, Entra ID sign-in logs]
+  - id: T1098.005
+    name: "Account Manipulation: Device Registration"
+    data_sources: [Okta System Log, Entra ID audit logs]
+  - id: T1078.004
+    name: "Valid Accounts: Cloud Accounts"
+    data_sources: [IdP sign-in logs, CASB]
+  - id: T1219
+    name: Remote Access Software
+    data_sources: [EDR process events, Sysmon EID 1, DNS, proxy]
+  - id: T1567.002
+    name: "Exfiltration Over Web Service: Exfiltration to Cloud Storage"
+    data_sources: [proxy, CASB, EDR network events]
+
+# Collection plan: which source answers which part of the question.
+collection_plan:
+  - source: MITRE ATT&CK (G1015 group page + STIX data)
+    answers: baseline TTPs and software used by the group
+  - source: abuse.ch ThreatFox / URLhaus / MalwareBazaar
+    answers: current infrastructure and payloads tagged to the cluster or its tooling
+  - source: CISA KEV + CISA/FBI advisories
+    answers: exploited vulns and official TTP write-ups
+  - source: Commercial intel via TIP (Anomali ThreatStream feeds, GTI/Mandiant, Recorded Future, Intel 471, Flashpoint)
+    answers: finished reporting, actor tracking, underground chatter
+  - source: FS-ISAC sharing (TAXII)
+    answers: peer-bank sightings - the single most relevant source for a bank
+  - source: Google Threat Intelligence / VirusTotal Livehunt + Retrohunt
+    answers: new and historical samples of RMM installers / loaders seen with this cluster
+  - source: Internal telemetry (Splunk, EDR, IdP, ITSM)
+    answers: whether any of it is happening here
+
+# Hunting pivots the researcher will run. Kept here so the work is repeatable.
+pivots:
+  vt_queries:
+    - 'entity:domain domain:*-okta* creation_date:30d+'
+    - 'entity:domain domain:*servicedesk* creation_date:30d+'
+  yara_hunts: [detections/yara/rmm_installer_hunt.yar]
+
+# What would confirm or refute the hypothesis. Agreed BEFORE looking at data
+# so we do not move the goalposts (confirmation bias control).
+evaluation:
+  confirm_if:
+    - any MFA device registration within 60 minutes of a help-desk MFA reset for the same user, from a new ASN
+    - unapproved RMM binary execution on a host owned by a user with a recent help-desk reset
+  refute_if:
+    - 90 days of IdP + ITSM data reviewed with zero correlated reset->register->RMM sequences
+  partial_if:
+    - individual signals present but never correlated on one identity
+
+# Analysis of Competing Hypotheses - the alternatives we must also test.
+alternatives:
+  - id: H2
+    text: The observed MFA reset volume is a benign process change (new onboarding workflow)
+  - id: H3
+    text: RMM tools are installed by shadow IT / vendors, not an adversary
+
+# Who gets what, and in what form, when this closes.
+handoffs:
+  detection_engineering: Sigma rules in detections/sigma tagged HYP-2026-001
+  threat_hunting: hunt package (SPL + hypothesis) for 90-day lookback
+  soc: enriched IOC lookup + triage notes for the RMM rule
+  red_team_purple_team: adversary emulation plan for reset->register->RMM chain
+  identity_engineering: control recommendation (verified call-back, MFA re-registration cooldown)
+  leadership: executive summary, BLUF, risk rating
+
+relevance:
+  # The pipeline keeps an indicator only if it matches one of these terms.
+  # This is how a firehose of feed data gets cut down to what the question needs.
+  actors: [scattered spider, unc3944, octo tempest, 0ktapus, muddled libra]
+  families: [anydesk, screenconnect, atera, splashtop, teamviewer, tacticalrmm, fleetdeck]
+  tags: [okta, sso-phish, helpdesk, rmm, vishing]

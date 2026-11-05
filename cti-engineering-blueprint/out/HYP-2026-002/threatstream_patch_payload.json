@@ -1,0 +1,9 @@
+{
+  "meta": {
+    "classification": "private",
+    "allow_unresolved": true,
+    "intelligence_source": "ctikit HYP-2026-002",
+    "confidence": 50
+  },
+  "objects": []
+}

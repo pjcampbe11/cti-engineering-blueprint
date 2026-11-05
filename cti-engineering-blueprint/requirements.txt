@@ -1,0 +1,14 @@
+# Core (required)
+PyYAML>=6.0
+
+# Lifecycle toolkit extras (recommended)
+stix2>=3.0
+pysigma>=1.5
+pysigma-backend-splunk
+yara-x
+
+# Vendor SDKs - install only the ones you run
+crowdstrike-falconpy>=1.4       # CrowdStrike Falcon (Alerts, Hosts, NGSIEM)
+carbon-black-cloud-sdk>=1.5     # Carbon Black Cloud (cbc_sdk)
+splunk-sdk>=2.0                 # splunklib, for the Splunk custom search command
+# SentinelOne, Microsoft Defender (Graph), Wiz and ThreatStream use stdlib HTTP - no SDK required

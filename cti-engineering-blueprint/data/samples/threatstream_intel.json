@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "total_count": 2,
+    "next": null
+  },
+  "objects": [
+    {
+      "value": "okta-sso-helpdesk.example",
+      "itype": "phish_domain",
+      "confidence": 85,
+      "source": "FS-ISAC (via ThreatStream)",
+      "threat_type": "phish",
+      "tags": [
+        {
+          "name": "Scattered Spider"
+        },
+        {
+          "name": "okta"
+        }
+      ],
+      "created_ts": "2026-10-30T10:00:00.000Z",
+      "status": "active",
+      "tlp": "amber"
+    },
+    {
+      "value": "203.0.113.77",
+      "itype": "c2_ip",
+      "confidence": 70,
+      "source": "Commercial Feed A (via ThreatStream)",
+      "threat_type": "c2",
+      "tags": [
+        {
+          "name": "UNC3944"
+        },
+        {
+          "name": "rmm"
+        }
+      ],
+      "created_ts": "2026-11-02T12:00:00.000Z",
+      "status": "active",
+      "tlp": "amber"
+    }
+  ]
+}

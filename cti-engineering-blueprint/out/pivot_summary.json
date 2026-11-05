@@ -1,0 +1,70 @@
+[
+  {
+    "alert": "ALERT-ATTACK-001",
+    "host": "FIN-WS-0231",
+    "user": "CORP\\jdoe",
+    "decision": "escalate",
+    "score": 100,
+    "tactics": [
+      "command-and-control",
+      "execution",
+      "stealth"
+    ],
+    "signals": [
+      "office_spawns_script_host(40)",
+      "encoded_powershell(20)",
+      "lolbin_proxy_execution(25)",
+      "rare_unsigned_binary(20)",
+      "tip_match(50,HARD)"
+    ],
+    "modifiers": [
+      "high-criticality asset: x1.15"
+    ],
+    "reason": "hard signal present - context cannot discount it",
+    "errors": []
+  },
+  {
+    "alert": "ALERT-ADMIN-002",
+    "host": "ADM-JMP-02",
+    "user": "CORP\\adm-rsmith",
+    "decision": "suppress",
+    "score": 11,
+    "tactics": [
+      "discovery",
+      "stealth"
+    ],
+    "signals": [
+      "encoded_powershell(20)",
+      "discovery_commands(10)"
+    ],
+    "modifiers": [
+      "privileged user on admin host: soft signals x0.5",
+      "inside approved change CHG0049812: soft signals x0.7",
+      "high-criticality asset: x1.15"
+    ],
+    "reason": "explained by context / below threshold - kept as risk record, not queued",
+    "errors": []
+  },
+  {
+    "alert": "ALERT-GREY-003",
+    "host": "OPS-WS-0110",
+    "user": "CORP\\adm-tlee",
+    "decision": "review",
+    "score": 60,
+    "tactics": [
+      "command-and-control",
+      "discovery",
+      "execution"
+    ],
+    "signals": [
+      "download_cradle(20)",
+      "payload_staged_to_writable_path(15)",
+      "discovery_commands(10)"
+    ],
+    "modifiers": [
+      "privileged account used off an admin host: +15"
+    ],
+    "reason": "material signal, context incomplete - human review",
+    "errors": []
+  }
+]

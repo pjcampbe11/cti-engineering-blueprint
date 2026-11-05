@@ -1,0 +1,69 @@
+hostname,platform,criticality,owner,class,edr_vendor,log_sources,recommendation
+dev-laptop-x9,unknown,0,,UNMANAGED,crowdstrike,,Identify owner and platform first - an unknown asset is itself the finding
+f5-lb-03,appliance,4,Network,BLIND,,,Vendor syslog + config backup diffing + NetFlow/NDR around it; agents usually unsupported
+lnx-app-00,linux,4,AppOps,EDR_HEALTHY,sentinelone,,
+lnx-app-01,linux,4,AppOps,EDR_HEALTHY,sentinelone,,
+lnx-app-02,linux,4,AppOps,EDR_HEALTHY,sentinelone,,
+lnx-app-03,linux,4,AppOps,EDR_HEALTHY,sentinelone,,
+lnx-app-04,linux,4,AppOps,EDR_HEALTHY,sentinelone,,
+lnx-app-05,linux,4,AppOps,EDR_HEALTHY,sentinelone,,
+lnx-db-ora02,linux,5,DBA,BLIND,,,EDR Linux sensor if the kernel is supported; else an eBPF runtime sensor (e.g. Wiz Runtime Sensor) or Sysmon for Linux on modern kernels; on old kernels without usable eBPF (e.g. RHEL 6) use auditd + osquery to the SIEM
+lnx-k8s-node-00,container,4,Platform,SENSOR_ONLY,,,Runtime sensor as a Kubernetes DaemonSet (e.g. Wiz Runtime Sensor) + k8s audit logs
+lnx-k8s-node-01,container,4,Platform,SENSOR_ONLY,,,Runtime sensor as a Kubernetes DaemonSet (e.g. Wiz Runtime Sensor) + k8s audit logs
+lnx-k8s-node-02,container,4,Platform,SENSOR_ONLY,,,Runtime sensor as a Kubernetes DaemonSet (e.g. Wiz Runtime Sensor) + k8s audit logs
+lnx-k8s-node-03,container,4,Platform,SENSOR_ONLY,,,Runtime sensor as a Kubernetes DaemonSet (e.g. Wiz Runtime Sensor) + k8s audit logs
+lnx-rhel6-batch01,linux,5,Payments Batch,LOGS_ONLY,,linux:audit,EDR Linux sensor if the kernel is supported; else an eBPF runtime sensor (e.g. Wiz Runtime Sensor) or Sysmon for Linux on modern kernels; on old kernels without usable eBPF (e.g. RHEL 6) use auditd + osquery to the SIEM
+ot-hvac-ctrl,ot,2,Facilities,BLIND,,,Passive network monitoring (OT NDR) at the segment boundary; never active agents without OT approval
+srv-win-00,windows,4,Infra,EDR_HEALTHY,sentinelone,,
+srv-win-01,windows,4,Infra,EDR_HEALTHY,sentinelone,,
+srv-win-02,windows,4,Infra,EDR_HEALTHY,sentinelone,,
+srv-win-03,windows,4,Infra,EDR_HEALTHY,sentinelone,,
+srv-win-04,windows,4,Infra,EDR_HEALTHY,sentinelone,,
+srv-win-05,windows,4,Infra,EDR_HEALTHY,sentinelone,,
+srv-win-06,windows,4,Infra,EDR_HEALTHY,sentinelone,,
+srv-win-07,windows,4,Infra,EDR_HEALTHY,sentinelone,,
+srv-win-legacy01,windows,4,Infra,LOGS_ONLY,,XmlWinEventLog:Microsoft-Windows-Sysmon/Operational,"Deploy EDR; if blocked, native/standalone Sysmon with the repo config + Windows Event Forwarding"
+swift-gw-01,appliance,5,Payments,LOGS_ONLY,,syslog,Vendor syslog + config backup diffing + NetFlow/NDR around it; agents usually unsupported
+ws-0000,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0001,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0002,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0003,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0004,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0005,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0006,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0007,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0008,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0009,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0010,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0011,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0012,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0013,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0014,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0015,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0016,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0017,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0018,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0019,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0020,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0021,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0022,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0023,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0024,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0025,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0026,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0027,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0028,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0029,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0030,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0031,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0032,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0033,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0034,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0035,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0036,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0037,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0038,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0039,windows,3,EUC,EDR_HEALTHY,crowdstrike,,
+ws-0040,windows,3,EUC,EDR_STALE,crowdstrike,,Investigate agent health / decommission status
+ws-0041,windows,3,EUC,EDR_STALE,crowdstrike,,Investigate agent health / decommission status
+zos-prod-a,mainframe,5,Mainframe,LOGS_ONLY,,syslog:racf,SMF / RACF (or ACF2/Top Secret) events forwarded via syslog connector

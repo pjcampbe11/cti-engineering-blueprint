@@ -1,0 +1,26 @@
+# Wiz Defend detections query - TEMPLATE.
+# Wiz's GraphQL schema is unversioned and changes. Before production, open the
+# Wiz API Explorer / docs, build the detections query for your tenant
+# (integrators commonly use the DetectionsTableV2 query), and paste it here.
+# Keep the variable names ($first, $after, $since) and the result alias
+# `detections { nodes pageInfo }` so wiz.py pagination keeps working.
+query Detections($first: Int, $after: String, $since: DateTime) {
+  detections(
+    first: $first
+    after: $after
+    filterBy: { createdAt: { after: $since }, origin: [WIZ_SENSOR] }
+  ) {
+    nodes {
+      id
+      createdAt
+      severity
+      description
+      ruleMatch { ruleName ruleId }
+      mitreTactics
+      mitreTechniques
+      resources { id name type providerUniqueId }
+      triggeringEvent { process { commandLine sha256 } }
+    }
+    pageInfo { hasNextPage endCursor }
+  }
+}

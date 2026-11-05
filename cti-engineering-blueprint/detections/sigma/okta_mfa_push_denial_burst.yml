@@ -1,0 +1,42 @@
+title: Okta Verify Push Denied By User
+id: 7a1e9c44-2b3d-4f8a-a6c1-9d0e2b4f6a21
+name: okta_push_denied
+status: experimental
+description: Base rule - a user denied an Okta Verify push (MFA fatigue signal). Feeds the correlation below. HYP-2026-001.
+references:
+  - https://attack.mitre.org/techniques/T1621/
+author: CTI Threat Research (HYP-2026-001)
+date: 2026-11-04
+tags:
+  - attack.credential-access
+  - attack.t1621
+logsource:
+  product: okta
+  service: okta
+detection:
+  selection:
+    eventtype: user.mfa.okta_verify.deny_push
+  condition: selection
+falsepositives:
+  - Users rejecting a push they did not expect from their own second device
+level: low
+---
+title: MFA Push Fatigue - Multiple Okta Verify Denials For One User
+id: 7a1e9c44-2b3d-4f8a-a6c1-9d0e2b4f6a22
+status: experimental
+description: Five or more push denials for the same identity inside 10 minutes. Sigma correlation rule (Sigma 2.0). HYP-2026-001.
+author: CTI Threat Research (HYP-2026-001)
+date: 2026-11-04
+tags:
+  - attack.credential-access
+  - attack.t1621
+correlation:
+  type: event_count
+  rules:
+    - okta_push_denied
+  group-by:
+    - actor.alternateid
+  timespan: 10m
+  condition:
+    gte: 5
+level: high

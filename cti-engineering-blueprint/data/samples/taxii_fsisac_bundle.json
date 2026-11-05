@@ -1,0 +1,45 @@
+{
+  "type": "bundle",
+  "id": "bundle--6f5d0c2e-6f7e-4b51-9a39-0b6d0d7e1a01",
+  "objects": [
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--0b9e1f4c-3c1a-4a55-8a4b-5e6f2d1c9b01",
+      "created": "2026-11-02T15:00:00.000Z",
+      "modified": "2026-11-02T15:00:00.000Z",
+      "name": "Help-desk themed SSO phishing domain",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "pattern": "[domain-name:value = 'servicedesk-mfa-reset.example']",
+      "pattern_type": "stix",
+      "valid_from": "2026-11-02T15:00:00.000Z",
+      "labels": [
+        "scattered spider",
+        "helpdesk",
+        "sso-phish"
+      ],
+      "confidence": 80
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--0b9e1f4c-3c1a-4a55-8a4b-5e6f2d1c9b02",
+      "created": "2026-11-02T15:00:00.000Z",
+      "modified": "2026-11-02T15:00:00.000Z",
+      "name": "RMM C2 relay",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "pattern": "[ipv4-addr:value = '203.0.113.45']",
+      "pattern_type": "stix",
+      "valid_from": "2026-11-02T15:00:00.000Z",
+      "labels": [
+        "rmm",
+        "UNC3944"
+      ],
+      "confidence": 75
+    }
+  ]
+}

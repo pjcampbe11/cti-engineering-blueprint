@@ -1,0 +1,16 @@
+<!-- Event ID 11 - File creation in persistence and staging locations. -->
+<RuleGroup name="file_create" groupRelation="or">
+  <FileCreate onmatch="include">
+    <TargetFilename name="technique_id=T1547.001,technique_name=Startup Folder" condition="contains">\Start Menu\Programs\Startup\</TargetFilename>
+    <TargetFilename name="technique_id=T1053.005,technique_name=Scheduled Task" condition="begin with">C:\Windows\System32\Tasks\</TargetFilename>
+    <TargetFilename name="technique_id=T1059,technique_name=Script staged" condition="end with">.ps1</TargetFilename>
+    <TargetFilename name="technique_id=T1059,technique_name=Script staged" condition="end with">.vbs</TargetFilename>
+    <TargetFilename name="technique_id=T1059,technique_name=Script staged" condition="end with">.js</TargetFilename>
+    <TargetFilename name="technique_id=T1059,technique_name=Script staged" condition="end with">.hta</TargetFilename>
+    <TargetFilename name="technique_id=T1059,technique_name=Script staged" condition="end with">.bat</TargetFilename>
+    <TargetFilename name="technique_id=T1059,technique_name=Script staged" condition="end with">.cmd</TargetFilename>
+    <TargetFilename name="technique_id=T1105,technique_name=Executable staged" condition="end with">.exe</TargetFilename>
+    <TargetFilename name="technique_id=T1105,technique_name=Executable staged" condition="end with">.dll</TargetFilename>
+    <TargetFilename name="technique_id=T1105,technique_name=Executable staged" condition="end with">.scr</TargetFilename>
+  </FileCreate>
+</RuleGroup>

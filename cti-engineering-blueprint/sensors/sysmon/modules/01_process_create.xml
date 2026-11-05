@@ -1,0 +1,12 @@
+<!-- Event ID 1 - Process creation. Exclude-mode: log everything except known
+     high-volume noise. Process creation is the backbone of endpoint detection;
+     do not include-filter it. Tune the excludes with your own baseline. -->
+<RuleGroup name="process_create" groupRelation="or">
+  <ProcessCreate onmatch="exclude">
+    <Image condition="is">C:\Windows\System32\conhost.exe</Image>
+    <Image condition="is">C:\Windows\System32\backgroundTaskHost.exe</Image>
+    <Image condition="is">C:\Windows\System32\SearchProtocolHost.exe</Image>
+    <Image condition="is">C:\Windows\System32\SearchFilterHost.exe</Image>
+    <ParentImage condition="is">C:\Windows\System32\wbem\WmiPrvSE.exe</ParentImage>
+  </ProcessCreate>
+</RuleGroup>

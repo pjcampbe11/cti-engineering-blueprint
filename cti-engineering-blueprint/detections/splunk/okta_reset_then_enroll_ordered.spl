@@ -1,0 +1,17 @@
+``` HYP-2026-001 - hand-tuned ordered version of the Sigma temporal correlation.
+    Sigma's Splunk backend buckets with bin span=60m, which (a) ignores order and
+    (b) misses pairs that straddle a bucket boundary. This version enforces
+    reset -> activate order with a true sliding 60-minute window.
+    Field names follow the Splunk Add-on for Okta Identity Cloud
+    (eventType, target{}.alternateId, actor.alternateId, client.ipAddress);
+    adjust to your index / sourcetype / CIM mapping. ```
+index=okta sourcetype="OktaIM2:log" (eventType="user.mfa.factor.reset_all" OR eventType="user.mfa.factor.activate")
+| eval identity=if(eventType=="user.mfa.factor.reset_all", mvindex('target{}.alternateId',0), 'actor.alternateId')
+| eval reset_time=if(eventType=="user.mfa.factor.reset_all", _time, null())
+| eval reset_actor=if(eventType=="user.mfa.factor.reset_all", 'actor.alternateId', null())
+| sort 0 identity _time
+| streamstats last(reset_time) as last_reset last(reset_actor) as reset_by by identity
+| where eventType=="user.mfa.factor.activate" AND isnotnull(last_reset) AND (_time - last_reset) <= 3600
+| eval minutes_after_reset=round((_time - last_reset)/60,1)
+| lookup cti_threat_intel_lookup indicator AS "client.ipAddress" OUTPUT score AS ti_score, tags AS ti_tags
+| table _time identity reset_by minutes_after_reset client.ipAddress client.geographicalContext.country ti_score ti_tags

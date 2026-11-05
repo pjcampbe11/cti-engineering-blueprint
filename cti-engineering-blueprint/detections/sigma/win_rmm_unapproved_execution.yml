@@ -1,0 +1,43 @@
+title: Unapproved Remote Monitoring and Management Tool Execution
+id: 3f6c2a5e-8d1b-4b7e-9a2c-1e5d7f9b0a11
+status: experimental
+description: |
+  Detects execution of commercial RMM / remote access tools commonly abused by
+  Scattered Spider-style actors for persistence after help-desk social
+  engineering. Produced by CTI hypothesis HYP-2026-001. Tune the filter with
+  the bank's approved RMM install paths / signer before enabling as an alert.
+references:
+  - https://attack.mitre.org/techniques/T1219/
+  - https://attack.mitre.org/groups/G1015/
+author: CTI Threat Research (HYP-2026-001)
+date: 2026-11-04
+tags:
+  - attack.command-and-control
+  - attack.t1219
+  - attack.g1015
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_image:
+    Image|endswith:
+      - '\ScreenConnect.ClientService.exe'
+      - '\ScreenConnect.WindowsClient.exe'
+      - '\AnyDesk.exe'
+      - '\AteraAgent.exe'
+      - '\SRService.exe'
+      - '\Splashtop_Streamer.exe'
+      - '\tacticalrmm.exe'
+      - '\fleetdeck_agent.exe'
+  selection_original:
+    OriginalFileName:
+      - 'ScreenConnect.ClientService.exe'
+      - 'AnyDesk.exe'
+      - 'AteraAgent.exe'
+  filter_approved_path:
+    Image|startswith: 'C:\Program Files\BankApprovedRMM\'
+  condition: 1 of selection_* and not filter_approved_path
+falsepositives:
+  - IT-sanctioned remote support sessions (maintain the approved path / signer filter)
+  - Third-party vendor support under contract
+level: high

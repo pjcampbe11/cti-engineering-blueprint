@@ -1,0 +1,34 @@
+{
+  "query_status": "ok",
+  "urls": [
+    {
+      "url": "https://okta-sso-helpdesk.example/login/reset",
+      "url_status": "online",
+      "threat": "malware_download",
+      "tags": [
+        "okta",
+        "sso-phish"
+      ],
+      "date_added": "2026-10-30 09:00:00 UTC"
+    },
+    {
+      "url": "https://files-share-cdn.test/ScreenConnect.ClientSetup.exe",
+      "url_status": "online",
+      "threat": "malware_download",
+      "tags": [
+        "rmm",
+        "screenconnect"
+      ],
+      "date_added": "2026-11-01 16:30:00 UTC"
+    },
+    {
+      "url": "http://cheap-pills.test/a.php",
+      "url_status": "offline",
+      "threat": "malware_download",
+      "tags": [
+        "spam"
+      ],
+      "date_added": "2026-09-01 00:00:00 UTC"
+    }
+  ]
+}

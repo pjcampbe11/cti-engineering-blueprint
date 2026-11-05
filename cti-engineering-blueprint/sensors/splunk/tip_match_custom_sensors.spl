@@ -1,0 +1,10 @@
+``` Match custom-sensor telemetry (Sysmon DNS + network, osquery sockets) against
+    the TIP lookup produced by ctikit / exported from the TIP. This gives hosts
+    without EDR the same IOC coverage as EDR-managed hosts. ```
+(index=edr_custom sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode IN (3,22))
+OR (index=linux_osquery name="pack_cti_process_open_sockets_external")
+| eval observable=coalesce(QueryName, DestinationIp, 'columns.remote_address')
+| lookup cti_threat_intel_lookup indicator AS observable OUTPUT score AS ti_score action AS ti_action tags AS ti_tags threat_actor
+| where isnotnull(ti_score)
+| eval risk_score=case(ti_score>=75,60, ti_score>=55,30, true(),10)
+| stats min(_time) as first max(_time) as last values(observable) as observables max(risk_score) as risk_score values(ti_tags) as ti_tags by host

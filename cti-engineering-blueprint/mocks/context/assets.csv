@@ -1,0 +1,4 @@
+hostname,criticality,role,env,owner,is_admin_host,tags
+FIN-WS-0231,4,finance workstation,prod,Finance IT,false,finance
+ADM-JMP-02,4,privileged access workstation,prod,Infra,true,paw
+OPS-WS-0110,3,ops workstation,prod,Ops,false,

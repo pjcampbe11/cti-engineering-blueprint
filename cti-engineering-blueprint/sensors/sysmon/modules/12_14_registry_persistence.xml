@@ -1,0 +1,8 @@
+<!-- Event IDs 12-14 - Registry run keys and service creation. -->
+<RuleGroup name="registry" groupRelation="or">
+  <RegistryEvent onmatch="include">
+    <TargetObject name="technique_id=T1547.001,technique_name=Registry Run Keys" condition="contains">\CurrentVersion\Run</TargetObject>
+    <TargetObject name="technique_id=T1543.003,technique_name=Windows Service" condition="begin with">HKLM\System\CurrentControlSet\Services\</TargetObject>
+    <TargetObject name="technique_id=T1546.015,technique_name=COM Hijacking" condition="contains">\InprocServer32\</TargetObject>
+  </RegistryEvent>
+</RuleGroup>
